@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class EmployeeListActivity extends AppCompatActivity {
+public class EmployeeListActivity extends AppCompatActivity implements EmployeeAdapter.OnEmployeeActionListener {
 
     private RecyclerView recyclerView;
 
@@ -40,6 +41,7 @@ public class EmployeeListActivity extends AppCompatActivity {
         });
 
         loadEmployees();
+
     }
 
     private void loadEmployees(){
@@ -67,11 +69,60 @@ public class EmployeeListActivity extends AppCompatActivity {
                 });
 
     }
+    
     private void populateListView(List<EmployeeDto> employeesList){
-        EmployeeAdapter employeeAdapter = new EmployeeAdapter(employeesList);
+        EmployeeAdapter employeeAdapter = new EmployeeAdapter(employeesList, this);
         recyclerView.setAdapter(employeeAdapter);
 
     }
+    
+    @Override
+    public void onUpdateEmployee(EmployeeDto employee) {
+        // Navigate to EmployeeForm with employee data for editing
+        Intent intent = new Intent(this, EmployeeForm.class);
+        intent.putExtra("employee_id", employee.getId());
+        intent.putExtra("employee_firstName", employee.getFirstName());
+        intent.putExtra("employee_lastName", employee.getLastName());
+        intent.putExtra("employee_email", employee.getEmail());
+        startActivity(intent);
+    }
+    
+    @Override
+    public void onDeleteEmployee(EmployeeDto employee) {
+        // Show confirmation dialog before deleting
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Employee")
+                .setMessage("Are you sure you want to delete " + employee.getFirstName() + " " + employee.getLastName() + "?")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    deleteEmployeeFromServer(employee);
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+    
+    private void deleteEmployeeFromServer(EmployeeDto employee) {
+        RetrofitService retrofitService = new RetrofitService();
+        EmployeeApi employeeApi = retrofitService.getRetrofit().create(EmployeeApi.class);
+        
+        employeeApi.deleteEmployee(employee.getId())
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(EmployeeListActivity.this, "Employee deleted successfully", Toast.LENGTH_SHORT).show();
+                            loadEmployees(); // Refresh the list
+                        } else {
+                            Toast.makeText(EmployeeListActivity.this, "Failed to delete employee", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(EmployeeListActivity.this, "Error deleting employee: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+    
     @Override
     protected void onResume() {
         super.onResume();

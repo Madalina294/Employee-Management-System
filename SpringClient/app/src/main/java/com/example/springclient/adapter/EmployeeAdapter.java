@@ -3,8 +3,10 @@ package com.example.springclient.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.springclient.R;
@@ -15,9 +17,16 @@ import java.util.List;
 public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeHolder> {
 
     private List<EmployeeDto> employeesList;
+    private OnEmployeeActionListener actionListener;
 
-    public EmployeeAdapter(List<EmployeeDto> employeesList) {
+    public interface OnEmployeeActionListener {
+        void onUpdateEmployee(EmployeeDto employee);
+        void onDeleteEmployee(EmployeeDto employee);
+    }
+
+    public EmployeeAdapter(List<EmployeeDto> employeesList, OnEmployeeActionListener actionListener) {
         this.employeesList = employeesList;
+        this.actionListener = actionListener;
     }
 
     @NonNull
@@ -35,6 +44,35 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeHolder> {
         holder.lastName.setText(employee.getLastName());
         holder.email.setText(employee.getEmail());
 
+        // Set click listener for menu button
+        holder.menuButton.setOnClickListener(view -> {
+            showPopupMenu(view, employee);
+        });
+    }
+
+    private void showPopupMenu(View view, EmployeeDto employee) {
+        PopupMenu popup = new PopupMenu(view.getContext(), view);
+        popup.getMenuInflater().inflate(R.menu.fab_menu, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(item -> {
+            int itemId = item.getItemId();
+            
+            if (itemId == R.id.menu_update) {
+                if (actionListener != null) {
+                    actionListener.onUpdateEmployee(employee);
+                }
+                return true;
+            } else if (itemId == R.id.menu_delete) {
+                if (actionListener != null) {
+                    actionListener.onDeleteEmployee(employee);
+                }
+                return true;
+            }
+            
+            return false;
+        });
+
+        popup.show();
     }
 
     @Override
