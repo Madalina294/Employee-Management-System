@@ -1,5 +1,6 @@
 package com.example.springclient;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -11,6 +12,7 @@ import com.example.springclient.adapter.EmployeeAdapter;
 import com.example.springclient.model.EmployeeDto;
 import com.example.springclient.retrofit.EmployeeApi;
 import com.example.springclient.retrofit.RetrofitService;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -30,6 +32,12 @@ public class EmployeeListActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.employeeList_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        FloatingActionButton floatingActionButton = findViewById(R.id.employeeList_fab);
+        floatingActionButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, EmployeeForm.class);
+            startActivity(intent);
+        });
 
         loadEmployees();
     }

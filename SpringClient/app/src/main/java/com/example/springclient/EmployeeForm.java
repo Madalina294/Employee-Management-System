@@ -15,7 +15,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class EmployeeForm extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +47,12 @@ public class MainActivity extends AppCompatActivity {
            employeeApi.save(employee).enqueue(new Callback<EmployeeDto>() {
                @Override
                public void onResponse(Call<EmployeeDto> call, Response<EmployeeDto> response) {
-                   Toast.makeText(MainActivity.this, "Save successful!", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(EmployeeForm.this, "Save successful!", Toast.LENGTH_SHORT).show();
                }
 
                @Override
                public void onFailure(Call<EmployeeDto> call, Throwable t) {
-                   Toast.makeText(MainActivity.this, "Save failed!", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(EmployeeForm.this, "Save failed!", Toast.LENGTH_SHORT).show();
                }
            });
        });
