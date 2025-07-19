@@ -13,37 +13,44 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/form_TextFieldFirstName"
-        android:hint="First Name"
+        android:text="First Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"/>
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:layout_marginBottom="8dp"/>
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/form_TextFieldLastName"
-        android:hint="Last Name"
+        android:text="Last Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"/>
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:layout_marginBottom="8dp"/>
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/form_TextFieldEmail"
-        android:hint="Email"
+        android:text="Email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"/>
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:layout_marginBottom="8dp"/>
 </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/form_buttonSave"
         android:text="Save Employee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="60dp"
+        android:minHeight="48dp"
+        android:padding="12dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true">
 
-    </com.google.android.material.button.MaterialButton>
+    </Button>
 
 </RelativeLayout>

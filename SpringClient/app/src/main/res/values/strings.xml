@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SpringClient</string>
+    <string name="title_activity_employee_list">EmployeeListActivity</string>
+    <string name="title_activity_employee_list_activity.java">EmployeeListActivity.java</string>
 </resources>

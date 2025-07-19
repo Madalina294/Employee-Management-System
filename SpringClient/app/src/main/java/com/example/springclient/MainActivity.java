@@ -3,20 +3,13 @@ package com.example.springclient;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import android.widget.Button;
+import android.widget.EditText;
 import com.example.springclient.model.EmployeeDto;
 import com.example.springclient.retrofit.EmployeeApi;
 import com.example.springclient.retrofit.RetrofitService;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,10 +26,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeComponents(){
-       TextInputEditText inputEditFirstName = findViewById(R.id.form_TextFieldFirstName);
-       TextInputEditText inputEditLastName = findViewById(R.id.form_TextFieldLastName);
-       TextInputEditText inputEditEmail = findViewById(R.id.form_TextFieldEmail);
-       MaterialButton buttonSave = findViewById(R.id.form_buttonSave);
+       EditText inputEditFirstName = findViewById(R.id.form_TextFieldFirstName);
+       EditText inputEditLastName = findViewById(R.id.form_TextFieldLastName);
+       EditText inputEditEmail = findViewById(R.id.form_TextFieldEmail);
+       Button buttonSave = findViewById(R.id.form_buttonSave);
 
         RetrofitService retrofitService = new RetrofitService();
         EmployeeApi employeeApi = retrofitService.getRetrofit().create(EmployeeApi.class);
@@ -60,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
                @Override
                public void onFailure(Call<EmployeeDto> call, Throwable t) {
                    Toast.makeText(MainActivity.this, "Save failed!", Toast.LENGTH_SHORT).show();
-                   Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, "Error occured", t);
                }
            });
        });
