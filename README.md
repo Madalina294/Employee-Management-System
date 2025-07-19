@@ -1,2 +1,2 @@
 # Employee-Management-System
-A mobile app for managing the employees
+A mobile app demo for managing the employees
